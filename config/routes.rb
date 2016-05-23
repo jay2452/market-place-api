@@ -1,9 +1,20 @@
+require "api_constraints"
+
+
 Rails.application.routes.draw do
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+
+  namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
+    scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+
+    end
+  end
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
